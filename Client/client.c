@@ -23,7 +23,7 @@ struct in_addr {
 */
 
 
-// First argument given when you execute the program is the port you want to connect to ; Second is the IP-address of the server
+// First argument given when you execute the program is the port you want to connect to ; Second is the IP-address of the server ; Third is the string you send to the server
 int main(int argc, char* argv[]){
 
 	int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -36,6 +36,19 @@ int main(int argc, char* argv[]){
 	addr.sin_port = htons(atoi(argv[2]));
 	addr.sin_addr.s_addr = inet_addr(argv[3]);
 	socklen_t peer_addr_size = sizeof(struct sockaddr_in);
+	const struct sockaddr* server_addr = &addr;
+	char buf[BUF_SIZE];
+
+	if(connect(sock,server_addr,peer_addr_size) == -1){
+		printf("Error : couldn't connect to the server socket !");
+		return 0;
+	}
+
+	//while(1){
+		send(sock,argv[4],BUF_SIZE,0);
+		recv(sock,buf,BUF_SIZE,0);
+		printf("%s", buf);
+	//}
 
 	return 0;
 }
