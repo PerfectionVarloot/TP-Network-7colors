@@ -36,6 +36,7 @@ int main(int argc, char* argv[]){
 	addr.sin_port = htons(atoi(argv[2]));
 	addr.sin_addr.s_addr = inet_addr(argv[3]);
 	socklen_t peer_addr_size = sizeof(struct sockaddr_in);
+
 	const struct sockaddr* server_addr = &addr;
 	char buf[BUF_SIZE];
 
@@ -49,6 +50,7 @@ int main(int argc, char* argv[]){
 		recv(sock,buf,BUF_SIZE,0);
 		printf("%s", buf);
 	//}
+
 
 	return 0;
 }
