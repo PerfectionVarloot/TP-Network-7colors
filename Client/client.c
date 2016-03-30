@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
 	buf[3] = "\0";
 
 	// Connexion test
-	if(connect(sock,server_addr,peer_addr_size) == -1){
+	if(connect(sock,server_addr,sizeof(addr)) == -1){
 		printf("Error : couldn't connect to the server socket !\n");
 		return 0;
 	}
