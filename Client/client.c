@@ -26,12 +26,15 @@ struct in_addr {
 // First argument given when you execute the program is the port you want to connect to ; Second is the IP-address of the server ; Third is the string you send to the server
 int main(int argc, char* argv[]){
 
+	// Creating the client socket
 	int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 	if(sock == -1){
 		printf("Error : couldn't create the socket !");
 		return 0;
 	}
+	printf("Successfully created a client socket.\n");
 
+	// Defining what's necessary to store the address you're trying to connect to
 	struct sockaddr_in addr;
 	addr.sin_port = htons(atoi(argv[2]));
 	addr.sin_addr.s_addr = inet_addr(argv[3]);
@@ -39,15 +42,28 @@ int main(int argc, char* argv[]){
 
 	const struct sockaddr* server_addr = &addr;
 	char buf[BUF_SIZE];
+	buf[0] = "H";
+	buf[1] = "e";
+	buf[2] = "y";
+	buf[3] = "\0";
 
+	// Connexion test
 	if(connect(sock,server_addr,peer_addr_size) == -1){
-		printf("Error : couldn't connect to the server socket !");
+		printf("Error : couldn't connect to the server socket !\n");
 		return 0;
 	}
+	printf("Successful connexion to %s on the port %s.\n", inet_ntoa(addr.sin_addr), argv[2]);
 
+	//printf("%s\n", argv[3]);
+	//printf("Successful connexion.\n");
 	//while(1){
-		send(sock,argv[4],BUF_SIZE,0);
+		// Testing the connexion by sending bits
+		if(send(sock,buf /*argv[4]*/,BUF_SIZE,0) == -1){
+			printf("Error : couldn't send any bits.\n");
+		}
+		printf("Successfully send bits.\n");
 		recv(sock,buf,BUF_SIZE,0);
+		printf("Received some bits.\n");
 		printf("%s", buf);
 	//}
 
