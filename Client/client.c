@@ -7,6 +7,8 @@
 
 #define BUF_SIZE 500
 
+
+//reminder for the new stuctures
 /*
 struct sockaddr_in {
     short            sin_family;   // e.g. AF_INET
@@ -28,6 +30,10 @@ int main(int argc, char* argv[]){
 
 	// Creating the client socket
 	int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+	/*AF_INET is the domain used, gives the associated propoco family, 
+	SOCK_STREAM indicates we are trying to establish a too way stream 
+	IPPROTO_TCP the actual protocol
+	*/
 	if(sock == -1){
 		printf("Error : couldn't create the socket !");
 		return 0;
@@ -40,8 +46,8 @@ int main(int argc, char* argv[]){
 	addr.sin_addr.s_addr = inet_addr(argv[3]);
 	socklen_t peer_addr_size = sizeof(struct sockaddr_in);
 
-	const struct sockaddr* server_addr = &addr;
-	char buf[BUF_SIZE];
+	const struct sockaddr* server_addr = &addr; //defining the variable where we will give the servers adress
+	char buf[BUF_SIZE]; //!!!line used to establish a test, will probably desapear
 	buf[0] = "H";
 	buf[1] = "e";
 	buf[2] = "y";
@@ -53,6 +59,7 @@ int main(int argc, char* argv[]){
 		return 0;
 	}
 	printf("Successful connexion to %s on the port %s.\n", inet_ntoa(addr.sin_addr), argv[2]);
+	//gives us the port and confirms that connection was made
 
 	//printf("%s\n", argv[3]);
 	//printf("Successful connexion.\n");
@@ -61,9 +68,9 @@ int main(int argc, char* argv[]){
 		if(send(sock,buf /*argv[4]*/,BUF_SIZE,0) == -1){
 			printf("Error : couldn't send any bits.\n");
 		}
-		printf("Successfully send bits.\n");
+		printf("Successfully send bits.\n"); //confirms connection and voice ability
 		recv(sock,buf,BUF_SIZE,0);
-		printf("Received some bits.\n");
+		printf("Received some bits.\n"); //confirms connection and hearing ability
 		printf("%s", buf);
 	//}
 
